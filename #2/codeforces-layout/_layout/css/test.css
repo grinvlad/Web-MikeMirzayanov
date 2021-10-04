@@ -1,0 +1,15 @@
+.wrapper {
+    display: flex;
+    height: 20rem;
+    border: 2px solid red;
+    justify-content: space-around; /*horizontal*/
+    align-items: stretch;  /*vertical*/
+    flex-direction: column;
+    /*order:*/
+    /*flex-wrap:*/
+    /*align-content:*/
+}
+
+div {
+
+}
