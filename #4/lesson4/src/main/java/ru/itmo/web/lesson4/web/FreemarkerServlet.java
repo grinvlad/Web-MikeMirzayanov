@@ -29,6 +29,7 @@ public class FreemarkerServlet extends HttpServlet {
             throw new ServletException("Unable to set template directory [dir=" + dir + "].", e);
         }
 
+
         freemarkerConfiguration.setDefaultEncoding(UTF_8);
         freemarkerConfiguration.setTemplateExceptionHandler(TemplateExceptionHandler.HTML_DEBUG_HANDLER);
         freemarkerConfiguration.setLogTemplateExceptions(false);

@@ -144,6 +144,11 @@ main .arrows span.empty-href {
 }
 /*4.1*/
 
+/*4.2*/
+header nav ul li .current-link {
+    border-bottom: 3px solid #3B5998;
+}
+/*4.2*/
 
 /*4.3*/
 main .error-message .error404 {
@@ -156,7 +161,6 @@ main .error-message .message {
     font-size: 0.75rem
 }
 /*4.3*/
-
 
 /*4.4 (Datatable)*/
 main .datatable table {
@@ -233,10 +237,6 @@ main article .footer .right {
 .middle main article .footer .right img {
     margin-left: 0.5rem;
     margin-right: 0.3rem;
-}
-
-.current {
-    border-bottom: 3px solid #3B5998;
 }
 /*4.4 (Posts)*/
 

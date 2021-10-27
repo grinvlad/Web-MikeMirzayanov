@@ -1,3 +1,5 @@
+<#-- @ftlvariable name="post" type="ru.itmo.web.lesson4.model.Post" -->
+
 <#macro page>  
     <!DOCTYPE html>
     <html lang="ru">
@@ -52,7 +54,7 @@
                 <#list items as item>
                     <li>
                         <#if uri?? && item.href == uri>
-                            <a href="${item.href}" class="current">${item.name}</a>
+                            <a href="${item.href}" class="current-link">${item.name}</a>
                         <#else>
                             <a href="${item.href}">${item.name}</a>
                         </#if>
@@ -65,45 +67,62 @@
 
 <#macro sidebar>
     <aside>
-        <section>
-            <div class="header">Information</div>
-            <div class="body">Lorem ipsum dolor sit amet, consectetur adipisicing elit. Asperiores enim expedita facilis
-                fugiat ipsum iste nobis reprehenderit tempore ut voluptatibus?
-            </div>
-            <div class="footer">
-                <a href="#">View all</a>
-            </div>
-        </section>
-        <section>
-            <div class="header">Information</div>
-            <div class="body">Lorem ipsum dolor sit amet, consectetur adipisicing elit. Asperiores enim expedita facilis
-                fugiat ipsum iste nobis reprehenderit tempore ut voluptatibus?
-            </div>
-            <div class="footer">
-                <a href="#">View all</a>
-            </div>
-        </section>
-        <section>
-            <div class="header">Information</div>
-            <div class="body">Lorem ipsum dolor sit amet, consectetur adipisicing elit. Asperiores enim expedita facilis
-                fugiat ipsum iste nobis reprehenderit tempore ut voluptatibus?
-            </div>
-            <div class="footer">
-                <a href="#">View all</a>
-            </div>
-        </section>
+        <#list posts?reverse as post>
+            <section>
+                <div class="header">Post #${post.id}</div>
+                <div class="body">${postShowType(post, "short")}</div>
+                <div class="footer">
+                    <a href="/post?post_id=${post.id}">View all</a>
+                </div>
+            </section>
+        </#list>
     </aside>
+</#macro>
+
+<#macro post post showType>
+    <article>
+        <div class="title">${post.title}</div>
+        <div class="information">By <@userlink findBy(users, "id", post.getUser_id())!/>, 2 days ago, translation</div>
+        <div class="body">
+            <p class="text">${postShowType(post, showType)}</p>
+        </div>
+        <div class="footer">
+            <div class="left">
+                <img src="img/voteup.png" title="Vote Up" alt="Vote Up"/>
+                <span class="positive-score">+173</span>
+                <img src="img/votedown.png" title="Vote Down" alt="Vote Down"/>
+            </div>
+            <div class="right">
+                <img src="img/date_16x16.png" title="Publish Time" alt="Publish Time"/>
+                2 days ago
+                <img src="img/comments_16x16.png" title="Comments" alt="Comments"/>
+                <a href="#">68</a>
+            </div>
+        </div>
+    </article>
 </#macro>
 
 <#macro footer>
     <footer>
-        2010-2021 &copy; by Mike Mirzayanov
+        2010-2021 &copy; by Mike Mirzayanov and Vlad Grin
     </footer>
 </#macro>
 
 <#macro userlink user>
     <a href="/user?handle=${user.handle}">${user.name}</a>
 </#macro>
+
+<#function postShowType post showType>
+    <#if showType=="full">
+        <#return post.text>
+    <#else>
+        <#if post.text?length &lt; 250>
+            <#return post.text>
+        <#else>
+            <#return post.text?substring(0, 250) + "...">
+        </#if>
+    </#if>
+</#function>
 
 <#function prevUser curUser>
     <#list 0..users?size-1 as i>
@@ -127,4 +146,14 @@
             <#return item/>
         </#if>
     </#list>
+</#function>
+
+<#function countPosts userId>
+    <#assign c = 0>
+    <#list posts as post>
+        <#if post.user_id == userId>
+            <#assign c++>
+        </#if>
+    </#list>
+    <#return c/>
 </#function>
